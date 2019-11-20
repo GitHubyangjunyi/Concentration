@@ -32,15 +32,11 @@ class ViewController: UIViewController {
         } else{
             print("T##items: Any...##Any")
         }
-        // MARK: 测试
-//        for button in cardButtons.indices {
-//            cardButtons[button].setTitle("\(button)", for: UIControl.State.normal)
-//        }
     }
     
     // MARK: 从模型Model中获得信息并更新视图View
     func updateViewFromModel() {
-        for index in cardButtons.indices {                                              //对所有视图遍历更新,目前视图只有按,遍历次数是按钮个数
+        for index in cardButtons.indices {                                              //对所有视图遍历更新,目前视图只有按钮,遍历次数是按钮个数
             let button = cardButtons[index]                                                 //获得按钮
             let card = game.cards[index]                                                    //获得游戏卡牌
             
@@ -65,4 +61,5 @@ class ViewController: UIViewController {
             return emoji[card.identifier] ?? "?"                                        //如果卡牌有映射到字典中就解包并返回emoji
     }
     
+    // TODO: 开始新的游戏
 }
