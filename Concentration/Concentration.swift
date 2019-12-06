@@ -13,17 +13,18 @@ struct Concentration {
     
     private var indexOfOneAndOnlyFaceUpCard: Int? {                                           //待匹配卡牌占位符(使用计算属性抽离chooseCard的逻辑)
         get {
-            var foundIndex: Int?
-            for index in cards.indices {
-                if cards[index].isFaceUp {
-                    if foundIndex == nil {
-                        foundIndex = index
-                    } else {
-                        return nil                                                  //发现两张卡牌朝上则是未匹配设置为进入下一轮
-                    }
-                }
-            }
-            return foundIndex
+            return cards.indices.filter { cards[$0].isFaceUp }.oneAndOnly
+//            var foundIndex: Int?
+//            for index in cards.indices {
+//                if cards[index].isFaceUp {
+//                    if foundIndex == nil {
+//                        foundIndex = index
+//                    } else {
+//                        return nil                                                  //发现两张卡牌朝上则是未匹配设置为进入下一轮
+//                    }
+//                }
+//            }
+//            return foundIndex
         }
         set {
             for index in cards.indices {
@@ -37,7 +38,7 @@ struct Concentration {
         assert(cards.indices.contains(index), "Concentration.chooseCard(at: \(index)): chosen index not in cards")
         if !cards[index].isMatched {                                                //如果被点击按钮所对应的卡牌未匹配则执行下边规则,如果卡牌是已经匹配过的不做任何动作直接返回
             if let matchIndex = indexOfOneAndOnlyFaceUpCard, matchIndex != index {      //令matchIndex等于待匹配卡牌且当前被点击按钮不是重复点击,也就是翻开一张卡牌后必须选择另一张卡牌进行匹配
-                if cards[matchIndex].identifier == cards[index].identifier {                //如果待匹配卡牌身份等于当前翻开的卡牌身份
+                if cards[matchIndex] == cards[index] {                //如果待匹配卡牌身份等于当前翻开的卡牌身份
                     cards[matchIndex].isMatched = true                                          //两张卡牌都将进入匹配状态
                     cards[index].isMatched = true
                 }
@@ -56,13 +57,17 @@ struct Concentration {
             cards += [card, card]                                                   //生成两张一模一样的卡牌放入游戏自带的数组中
         }
         shuffleCards()
-        for card in cards {
-            print("\(card.identifier)")
-        }
     }
     
     // TODO: 洗牌
     mutating func shuffleCards() {
         cards = cards.shuffled()
     }
+}
+
+extension Collection {
+    var oneAndOnly: Element? {
+        return count == 1 ? first : nil
+    }
+    
 }

@@ -51,13 +51,13 @@ class ViewController: UIViewController {
     }
     
     private var emojiChoices = ["🇺🇸", "🇨🇦", "🇨🇳", "🇩🇪", "🇩🇴", "🇫🇷", "🏴‍☠️", "🏳️‍🌈", "🇺🇳", "🇦🇺", "🇷🇺", "🇰🇷", "♻︎", "〶", "♴", "♽", "♷", "㉿", "⎈", "⌨︎", "⎆", "⚙︎", "⎊", "⎉", "⌚︎", "⎌", "⎂", "⑇", "⑈", "⑉", "⑆", ]
-    private var emoji =  [Int : String]()                                                       //字典映射,一个卡牌模型映射一个emoji字典模型
+    private var emoji =  [Card : String]()                                                       //字典映射,一个卡牌模型映射一个emoji字典模型
     
     private func emoji(for card: Card) -> String {
-        if emoji[card.identifier] == nil, emojiChoices.count > 0 {                      //用卡牌身份号去验证emoji字典中有没有映射卡牌符号,如果没有映射并且emojiChoices还有剩余就选一个emoji并让卡牌模型映射到视图控制器的字典模型中
-            emoji[card.identifier] = emojiChoices.remove(at: emojiChoices.count.arc4random)               //映射卡牌到字典当中并将当前卡牌使用的emoji从emojiChoices中移除
+        if emoji[card] == nil, emojiChoices.count > 0 {                      //用卡牌身份号去验证emoji字典中有没有映射卡牌符号,如果没有映射并且emojiChoices还有剩余就选一个emoji并让卡牌模型映射到视图控制器的字典模型中
+            emoji[card] = emojiChoices.remove(at: emojiChoices.count.arc4random)               //映射卡牌到字典当中并将当前卡牌使用的emoji从emojiChoices中移除
             }
-            return emoji[card.identifier] ?? "?"                                        //如果卡牌有映射到字典中就解包并返回emoji
+            return emoji[card] ?? "?"                                        //如果卡牌有映射到字典中就解包并返回emoji
     }
     
     // TODO: 开始新的游戏
